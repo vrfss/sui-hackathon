@@ -16,6 +16,7 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #fff;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .container {
@@ -26,96 +27,219 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
             backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .header h1 {
-            font-size: 3em;
+            font-size: 3.5em;
             color: #00ff88;
-            text-shadow: 0 0 20px #00ff88;
+            text-shadow: 0 0 30px #00ff88, 0 0 60px rgba(0, 255, 136, 0.5);
             margin-bottom: 10px;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px #00ff88, 0 0 40px rgba(0, 255, 136, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 40px #00ff88, 0 0 80px rgba(0, 255, 136, 0.8);
+            }
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: #aaa;
+            margin-top: 10px;
         }
 
         .wallet-section {
             text-align: center;
             margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .wallet-selector {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .wallet-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #00ff88;
-            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            padding: 20px 35px;
             color: white;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
-            border-radius: 15px;
+            border-radius: 18px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0, 255, 136, 0.2);
+            transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+        }
+
+        .wallet-btn:hover::before {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
         }
 
         .wallet-btn:hover {
-            background: rgba(0, 255, 136, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+            background: rgba(0, 255, 136, 0.15);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
+            border-color: #00ff88;
         }
 
         .wallet-icon {
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wallet-info {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05));
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1.1em;
+            border: 2px solid #00ff88;
+            box-shadow: 0 5px 25px rgba(0, 255, 136, 0.3);
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            padding: 15px 40px;
+            padding: 18px 40px;
             color: white;
             font-size: 16px;
             font-weight: bold;
-            border-radius: 30px;
+            border-radius: 35px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin: 5px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            margin: 8px;
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(102, 126, 234, 0.7);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(-2px) scale(0.98);
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
         .btn-danger {
             background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.5);
         }
 
         .btn-success {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 6px 25px rgba(79, 172, 254, 0.5);
         }
 
         .game-area {
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
-            gap: 20px;
+            gap: 25px;
+            animation: fadeIn 0.8s ease-out 0.4s both;
         }
 
         @media (max-width: 1024px) {
@@ -127,105 +251,402 @@
         .panel {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .panel h2 {
-            color: #00ff88;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            border-bottom: 2px solid #00ff88;
-            padding-bottom: 10px;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 12px 0;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-
-        .stat-item:hover {
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        .stat-label {
-            color: #aaa;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            color: #00ff88;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .health-bar {
-            width: 100%;
-            height: 30px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            overflow: hidden;
-            margin: 15px 0;
-            border: 2px solid #00ff88;
-        }
-
-        .health-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ff88 0%, #00cc70 100%);
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        .canvas-container {
-            position: relative;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 2px solid #00ff88;
-            min-height: 400px;
-        }
-
-        .log-area {
-            max-height: 300px;
-            overflow-y: auto;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
-
-        .log-entry {
-            margin: 8px 0;
-            padding: 8px;
-            border-left: 3px solid #00ff88;
-            padding-left: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            animation: slideIn 0.3s ease;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease-out;
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-20px);
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 255, 136, 0.2);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .panel h2 {
+            color: #00ff88;
+            margin-bottom: 25px;
+            font-size: 2em;
+            border-bottom: 3px solid #00ff88;
+            padding-bottom: 12px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .stat-item:hover {
+            background: rgba(0, 255, 136, 0.15);
+            transform: translateX(8px);
+            border-left-color: #00ff88;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        .stat-value {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .health-bar {
+            width: 100%;
+            height: 35px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 18px;
+            overflow: hidden;
+            margin: 18px 0;
+            border: 3px solid #00ff88;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 136, 0.3);
+            position: relative;
+        }
+
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc70 50%, #00ff88 100%);
+            background-size: 200% 100%;
+            animation: healthShimmer 3s ease-in-out infinite;
+            transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1em;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .health-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: healthGloss 2s ease-in-out infinite;
+        }
+
+        @keyframes healthShimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes healthGloss {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 200%;
+            }
+        }
+
+        /* BATTLE ARENA - Style Pokémon */
+        .canvas-container {
+            position: relative;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98D8C8 50%, #6B8E23 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid #00ff88;
+            min-height: 500px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .battle-ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(139, 69, 19, 0.3), rgba(101, 67, 33, 0.6));
+            border-top: 4px solid #8B4513;
+        }
+
+        .battle-grid {
+            position: absolute;
+            bottom: 10%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #654321 50%, transparent 100%);
+        }
+
+        .fighter {
+            position: absolute;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6));
+        }
+
+        .hero-fighter {
+            bottom: 18%;
+            left: 15%;
+            width: 130px;
+            height: 130px;
+        }
+
+        .zombie-fighter {
+            top: 20%;
+            right: 18%;
+            width: 150px;
+            height: 150px;
+        }
+
+        .fighter-sprite {
+            width: 100%;
+            height: 100%;
+            font-size: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Animations de combat */
+        @keyframes attackSlide {
+            0% { transform: translateX(0) scale(1); }
+            50% { transform: translateX(220px) scale(1.25) rotate(15deg); }
+            100% { transform: translateX(0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes attackSlideEnemy {
+            0% { transform: translateX(0) scale(1); }
+            50% { transform: translateX(-220px) scale(1.25) rotate(-15deg); }
+            100% { transform: translateX(0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes hit {
+            0%, 100% { 
+                transform: translateX(0);
+                filter: brightness(1) drop-shadow(0 8px 15px rgba(0, 0, 0, 0.6));
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-15px);
+                filter: brightness(2.5) drop-shadow(0 0 30px #fff) hue-rotate(180deg);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(15px);
+                filter: brightness(2.5) drop-shadow(0 0 30px #fff) hue-rotate(180deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+            }
+            50% { 
+                transform: translateY(-15px) rotate(5deg); 
+            }
+        }
+
+        @keyframes victory {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(1.2) rotate(-10deg);
+            }
+            75% {
+                transform: scale(1.2) rotate(10deg);
+            }
+        }
+
+        @keyframes defeat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(500px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .fighter.attacking {
+            animation: attackSlide 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .zombie-fighter.attacking {
+            animation: attackSlideEnemy 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .fighter.hit {
+            animation: hit 0.6s ease-in-out;
+        }
+
+        .fighter.idle {
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        .fighter.victory {
+            animation: victory 1s ease-in-out 3;
+        }
+
+        .fighter.defeat {
+            animation: defeat 1.5s ease-in-out forwards;
+        }
+
+        /* Effets d'attaque */
+        .attack-effect {
+            position: absolute;
+            font-size: 80px;
+            animation: attackEffect 0.7s ease-out forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes attackEffect {
+            0% {
+                opacity: 1;
+                transform: scale(0.3) rotate(0deg);
+                filter: brightness(2);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2.5) rotate(360deg);
+                filter: brightness(0.5);
+            }
+        }
+
+        .damage-number {
+            position: absolute;
+            font-size: 45px;
+            font-weight: 900;
+            color: #ff4444;
+            text-shadow: 4px 4px 8px #000, -3px -3px 6px #fff, 0 0 20px #ff0000;
+            animation: damageFloat 1.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        @keyframes damageFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.4) rotate(-10deg);
+            }
+            30% {
+                transform: translateY(-40px) scale(1.4) rotate(5deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-80px) scale(1.2) rotate(-5deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-150px) scale(0.6) rotate(10deg);
+            }
+        }
+
+        .heal-effect {
+            position: absolute;
+            font-size: 45px;
+            font-weight: 900;
+            color: #00ff88;
+            text-shadow: 4px 4px 8px #000, -3px -3px 6px #fff, 0 0 20px #00ff88;
+            animation: healFloat 1.4s ease-out forwards;
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        @keyframes healFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.4);
+            }
+            50% {
+                transform: translateY(-60px) scale(1.3);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) scale(0.5);
+            }
+        }
+
+        /* Particules */
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .log-area {
+            max-height: 350px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            font-size: 0.95em;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .log-entry {
+            margin: 10px 0;
+            padding: 12px;
+            border-left: 4px solid #00ff88;
+            padding-left: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            animation: slideInLeft 0.4s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
             }
             to {
                 opacity: 1;
                 transform: translateX(0);
             }
+        }
+
+        .log-entry:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateX(5px);
         }
 
         .log-error {
@@ -244,88 +665,119 @@
         }
 
         .zombie-list {
-            max-height: 400px;
+            max-height: 450px;
             overflow-y: auto;
         }
 
         .zombie-item {
-            background: rgba(255, 100, 100, 0.15);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.15), rgba(255, 50, 50, 0.1));
+            padding: 20px;
+            margin: 12px 0;
+            border-radius: 15px;
             border: 2px solid #ff6b6b;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zombie-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 107, 107, 0.3);
+            transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+        }
+
+        .zombie-item:hover::before {
+            width: 400px;
+            height: 400px;
+            top: -200px;
+            left: -200px;
         }
 
         .zombie-item:hover {
-            transform: translateX(10px);
-            background: rgba(255, 100, 100, 0.25);
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            transform: translateX(15px) scale(1.05);
+            background: rgba(255, 100, 100, 0.3);
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.6);
+            border-color: #ff4444;
         }
 
         .zombie-type {
             font-weight: bold;
             color: #ff6b6b;
-            font-size: 1.3em;
-            margin-bottom: 8px;
-        }
-
-        .wallet-info {
-            background: rgba(0, 255, 136, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
-            font-size: 1em;
-            border: 1px solid #00ff88;
-        }
-
-        .hidden {
-            display: none;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            position: relative;
+            z-index: 1;
         }
 
         .instructions {
-            background: rgba(74, 172, 254, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #4facfe;
-            margin-top: 15px;
+            background: linear-gradient(135deg, rgba(74, 172, 254, 0.15), rgba(74, 172, 254, 0.05));
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #4facfe;
+            margin-top: 20px;
             text-align: center;
+            box-shadow: 0 5px 25px rgba(74, 172, 254, 0.3);
         }
 
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #00ff88;
+            background: linear-gradient(180deg, #00ff88, #00cc70);
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #00cc70;
+            background: linear-gradient(180deg, #00cc70, #00ff88);
         }
 
         .loading {
             color: #4facfe;
             font-style: italic;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <div class="logo">
+                <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/008aa0dc-8fe2-4471-ab66-e4262a4528a8.png" alt="Zombie Slayer Logo">
+            </div>
             <h1>🧟 ZOMBIE SLAYER 🗡️</h1>
-            <p style="font-size: 1.2em; margin-top: 10px;">Combat sur la blockchain Sui</p>
+            <p style="font-size: 1.3em; margin-top: 10px;">Combat Épique sur la Blockchain Sui</p>
         </div>
 
         <div class="wallet-section">
-            <p class="loading" id="loadingText">🔍 Recherche des wallets...</p>
+            <p class="loading" id="loadingText">🔍 Recherche des wallets Sui...</p>
             <div id="walletSelector" class="wallet-selector"></div>
             <div class="wallet-info hidden" id="walletInfo"></div>
         </div>
@@ -334,7 +786,7 @@
             <div class="game-area">
                 <!-- Panneau Joueur -->
                 <div class="panel">
-                    <h2>👤 Ton Personnage</h2>
+                    <h2>👤 Ton Héros</h2>
                     <div id="playerStats">
                         <div class="stat-item">
                             <span class="stat-label">Nom:</span>
@@ -345,7 +797,7 @@
                             <span class="stat-value" id="playerLevel">-</span>
                         </div>
                         <div>
-                            <div class="stat-label" style="margin-bottom: 8px;">Santé:</div>
+                            <div class="stat-label" style="margin-bottom: 8px;">❤️ Santé:</div>
                             <div class="health-bar">
                                 <div class="health-fill" id="playerHealth" style="width: 100%;">
                                     <span id="playerHealthText">100/100</span>
@@ -369,49 +821,61 @@
                             <span class="stat-value" id="playerCoins">-</span>
                         </div>
                     </div>
-                    <button class="btn btn-success" id="createPlayer">✨ Créer Personnage</button>
-                    <button class="btn" id="healPlayer" disabled>🩹 Se Soigner (10 💰)</button>
+                    <button class="btn btn-success" id="createPlayer">✨ Créer Héros</button>
+                    <button class="btn" id="healPlayer" disabled>🩹 Soigner (10💰)</button>
                 </div>
 
-                <!-- Zone de Jeu -->
+                <!-- Zone de Combat -->
                 <div class="panel">
-                    <h2>🎮 Zone de Combat</h2>
-                    <div class="canvas-container">
-                        <div style="padding: 40px; text-align: center;">
-                            <p style="font-size: 4em; margin-bottom: 20px;">🧟‍♂️ vs 🗡️</p>
-                            <p style="font-size: 1.2em; color: #aaa;">Prêt pour le combat ?</p>
+                    <h2>⚔️ Arène de Combat</h2>
+                    <div class="canvas-container" id="battleArena">
+                        <div class="battle-ground"></div>
+                        <div class="battle-grid"></div>
+                        
+                        <div class="fighter hero-fighter idle" id="heroFighter">
+                            <div class="fighter-sprite">🗡️</div>
+                        </div>
+                        
+                        <div class="fighter zombie-fighter idle" id="zombieFighter" style="display: none;">
+                            <div class="fighter-sprite">🧟</div>
+                        </div>
+                        
+                        <div style="padding: 60px; text-align: center;" id="emptyBattle">
+                            <p style="font-size: 4em; margin-bottom: 20px;">🗡️</p>
+                            <p style="font-size: 1.3em; color: #aaa;">En attente d'un adversaire...</p>
+                            <p style="font-size: 1em; color: #666; margin-top: 10px;">Spawne un zombie pour commencer!</p>
                         </div>
                     </div>
                     <div class="instructions">
-                        <p>📋 <strong>Instructions:</strong></p>
-                        <p>1. Crée ton personnage | 2. Spawn un zombie | 3. Attaque-le !</p>
+                        <p style="font-size: 1.1em; font-weight: bold; margin-bottom: 10px;">📋 Guide de Combat</p>
+                        <p style="color: #aaa;">1. Crée ton héros ⚔️ | 2. Spawne un zombie 🧟 | 3. Clique pour attaquer! 💥</p>
                     </div>
                     <div class="log-area" id="gameLog">
-                        <div class="log-entry log-success">✅ Bienvenue dans Zombie Slayer !</div>
-                        <div class="log-entry log-info">🔗 Connecte ton wallet pour commencer...</div>
+                        <div class="log-entry log-success">✅ Bienvenue dans l'arène, champion !</div>
+                        <div class="log-entry log-info">🔗 Connecte ton wallet Sui pour commencer l'aventure...</div>
                     </div>
                 </div>
 
                 <!-- Panneau Zombies -->
                 <div class="panel">
-                    <h2>🧟 Zombies Disponibles</h2>
+                    <h2>🧟 Spawn Zombies</h2>
                     <button class="btn btn-danger" id="spawnNormal" disabled>
-                        Spawn Normal<br>
-                        <small style="font-size: 0.8em;">50 HP | 25 XP</small>
+                        🧟 Zombie Normal<br>
+                        <small style="font-size: 0.8em;">❤️ 50 HP | ⭐ 25 XP</small>
                     </button>
                     <button class="btn btn-danger" id="spawnStrong" disabled>
-                        Spawn Fort<br>
-                        <small style="font-size: 0.8em;">100 HP | 50 XP</small>
+                        🧟‍♂️ Zombie Fort<br>
+                        <small style="font-size: 0.8em;">❤️ 100 HP | ⭐ 50 XP</small>
                     </button>
                     <button class="btn btn-danger" id="spawnBoss" disabled>
-                        Spawn Boss<br>
-                        <small style="font-size: 0.8em;">200 HP | 150 XP</small>
+                        👹 Boss Zombie<br>
+                        <small style="font-size: 0.8em;">❤️ 200 HP | ⭐ 150 XP</small>
                     </button>
                     
                     <div class="zombie-list" id="zombieList">
-                        <p style="text-align: center; color: #888; padding: 20px;">
-                            Aucun zombie pour l'instant...<br>
-                            Spawne-en un pour commencer !
+                        <p style="text-align: center; color: #888; padding: 30px;">
+                            🌙 La nuit est calme...<br><br>
+                            Spawne des zombies pour<br>commencer le combat !
                         </p>
                     </div>
                 </div>
@@ -423,7 +887,6 @@
         import { SuiClient, getFullnodeUrl } from 'https://esm.sh/@mysten/sui@1.15.0/client';
         import { Transaction } from 'https://esm.sh/@mysten/sui@1.15.0/transactions';
 
-        // Configuration
         const PACKAGE_ID = '0xd0ed8178bb15ab8bea93f74130639417fea3b8851f4adacf1262bde485a534d8';
         const NETWORK = 'testnet';
         
@@ -432,99 +895,146 @@
         let currentAccount = null;
         let playerObjectId = null;
         let zombieObjects = [];
+        let currentZombieInBattle = null;
 
-        // Éléments DOM
         const walletSelector = document.getElementById('walletSelector');
         const walletInfo = document.getElementById('walletInfo');
         const gameInterface = document.getElementById('gameInterface');
         const gameLog = document.getElementById('gameLog');
         const loadingText = document.getElementById('loadingText');
+        const battleArena = document.getElementById('battleArena');
 
-        // Fonction pour ajouter des logs
+        // Effets visuels améliorés
+        function showAttackEffect(x, y, emoji) {
+            const effect = document.createElement('div');
+            effect.className = 'attack-effect';
+            effect.textContent = emoji;
+            effect.style.left = x;
+            effect.style.top = y;
+            battleArena.appendChild(effect);
+            setTimeout(() => effect.remove(), 700);
+
+            // Particules
+            for (let i = 0; i < 8; i++) {
+                createParticle(x, y);
+            }
+        }
+
+        function showDamageNumber(damage, x, y) {
+            const dmg = document.createElement('div');
+            dmg.className = 'damage-number';
+            dmg.textContent = `-${damage}`;
+            dmg.style.left = x;
+            dmg.style.top = y;
+            battleArena.appendChild(dmg);
+            setTimeout(() => dmg.remove(), 1400);
+        }
+
+        function showHealEffect(amount, x, y) {
+            const heal = document.createElement('div');
+            heal.className = 'heal-effect';
+            heal.textContent = `+${amount}`;
+            heal.style.left = x;
+            heal.style.top = y;
+            battleArena.appendChild(heal);
+            setTimeout(() => heal.remove(), 1400);
+        }
+
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.left = x;
+            particle.style.top = y;
+            particle.style.width = '8px';
+            particle.style.height = '8px';
+            particle.style.borderRadius = '50%';
+            particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '99';
+            
+            const tx = (Math.random() - 0.5) * 200;
+            const ty = (Math.random() - 0.5) * 200;
+            particle.style.setProperty('--tx', tx + 'px');
+            particle.style.setProperty('--ty', ty + 'px');
+            particle.style.animation = 'particleFloat 1s ease-out forwards';
+            
+            battleArena.appendChild(particle);
+            setTimeout(() => particle.remove(), 1000);
+        }
+
         function addLog(message, type = 'info') {
             const logEntry = document.createElement('div');
             logEntry.className = `log-entry log-${type}`;
-            const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
-            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${icon} ${message}`;
+            const icons = { error: '❌', success: '✅', info: '💬' };
+            logEntry.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${icons[type]} ${message}`;
             gameLog.appendChild(logEntry);
             gameLog.scrollTop = gameLog.scrollHeight;
         }
 
-        // Storage pour les wallets détectés
         const GlobalWallet = {
             walletList: [],
             register: (wallet) => {
-                console.log('Wallet enregistré:', wallet.name);
+                console.log('✅ Wallet enregistré:', wallet.name);
                 GlobalWallet.walletList.push(wallet);
             }
         };
 
-        // Event pour détecter les wallets (Wallet Standard API)
-        const event = new CustomEvent('wallet-standard:app-ready', {
-            detail: GlobalWallet
-        });
-        window.dispatchEvent(event);
+        window.dispatchEvent(new CustomEvent('wallet-standard:app-ready', { detail: GlobalWallet }));
 
-        // Attendre et afficher les wallets
         setTimeout(() => {
-            console.log('Wallets détectés:', GlobalWallet.walletList.length);
+            console.log(`📊 Wallets détectés: ${GlobalWallet.walletList.length}`);
             displayWalletButtons();
         }, 1500);
 
-        // Afficher les boutons de wallet
         function displayWalletButtons() {
             const wallets = GlobalWallet.walletList;
-            
             loadingText.style.display = 'none';
 
             if (wallets.length === 0) {
                 walletSelector.innerHTML = `
-                    <div style="padding: 20px; background: rgba(255, 107, 107, 0.2); border: 2px solid #ff6b6b; border-radius: 15px;">
-                        <p style="color: #ff6b6b; margin-bottom: 10px;">❌ Aucun wallet Sui détecté !</p>
-                        <p style="font-size: 0.9em;">Installe un wallet compatible :</p>
-                        <p style="font-size: 0.9em; margin-top: 5px;">
-                            <a href="https://phantom.app/" target="_blank" style="color: #00ff88;">Phantom</a> | 
-                            <a href="https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil" target="_blank" style="color: #00ff88;">Sui Wallet</a> |
-                            <a href="https://suiet.app/" target="_blank" style="color: #00ff88;">Suiet</a>
+                    <div style="padding: 30px; background: rgba(255, 107, 107, 0.2); border: 3px solid #ff6b6b; border-radius: 20px; max-width: 600px; margin: 0 auto;">
+                        <p style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.2em;">❌ Aucun wallet Sui détecté</p>
+                        <p style="font-size: 1em; margin-bottom: 10px;">Installe un wallet compatible Sui :</p>
+                        <p style="font-size: 1.1em; margin-top: 15px;">
+                            <a href="https://phantom.app/" target="_blank" style="color: #00ff88; text-decoration: none; margin: 0 10px;">🟣 Phantom</a> |
+                            <a href="https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil" target="_blank" style="color: #00ff88; text-decoration: none; margin: 0 10px;">🔵 Sui Wallet</a> |
+                            <a href="https://suiet.app/" target="_blank" style="color: #00ff88; text-decoration: none; margin: 0 10px;">🟠 Suiet</a>
                         </p>
-                        <p style="font-size: 0.8em; margin-top: 10px; color: #aaa;">Rafraîchis la page après installation</p>
+                        <p style="font-size: 0.9em; margin-top: 15px; color: #aaa;">Rafraîchis la page après installation</p>
                     </div>
                 `;
                 return;
             }
 
-            addLog(`${wallets.length} wallet(s) détecté(s) !`, 'success');
+            addLog(`${wallets.length} wallet(s) compatible(s) trouvé(s)!`, 'success');
 
             wallets.forEach(wallet => {
                 const btn = document.createElement('button');
                 btn.className = 'wallet-btn';
                 btn.innerHTML = `
                     ${wallet.icon ? `<img src="${wallet.icon}" class="wallet-icon" alt="${wallet.name}">` : '🔗'}
-                    <span>${wallet.name}</span>
+                    <span style="position: relative; z-index: 1;">${wallet.name}</span>
                 `;
                 btn.onclick = () => connectWallet(wallet);
                 walletSelector.appendChild(btn);
             });
         }
 
-        // Connexion au wallet
         async function connectWallet(wallet) {
             try {
                 addLog(`Connexion à ${wallet.name}...`, 'info');
 
-                // Connecter via Wallet Standard
                 const connectFeature = wallet.features['standard:connect'];
                 if (!connectFeature) {
-                    addLog('❌ Ce wallet ne supporte pas la connexion standard', 'error');
+                    addLog('Ce wallet ne supporte pas la connexion standard', 'error');
                     return;
                 }
 
                 await connectFeature.connect();
-
                 const accounts = wallet.accounts;
 
                 if (!accounts || accounts.length === 0) {
-                    addLog('❌ Aucun compte trouvé !', 'error');
+                    addLog('Aucun compte trouvé', 'error');
                     return;
                 }
 
@@ -532,55 +1042,44 @@
                 currentAccount = accounts[0].address;
 
                 walletInfo.innerHTML = `
-                    <strong>✅ ${wallet.name} connecté:</strong><br>
-                    ${currentAccount.slice(0, 8)}...${currentAccount.slice(-6)}
+                    <strong style="font-size: 1.2em;">✅ ${wallet.name} Connecté</strong><br>
+                    <span style="font-family: monospace; font-size: 1.1em; color: #00ff88;">
+                        ${currentAccount.slice(0, 10)}...${currentAccount.slice(-8)}
+                    </span>
                 `;
                 walletInfo.classList.remove('hidden');
                 gameInterface.classList.remove('hidden');
-                walletSelector.innerHTML = `<button class="btn" disabled>✓ ${wallet.name} Connecté</button>`;
+                walletSelector.innerHTML = `<button class="btn btn-success" disabled>✓ ${wallet.name} Connecté</button>`;
 
-                addLog('Wallet connecté avec succès !', 'success');
-
+                addLog(`Bienvenue dans l'arène, champion! 🎮`, 'success');
                 await loadPlayerData();
 
             } catch (error) {
-                console.error('Erreur connexion:', error);
-                addLog(`Erreur: ${error.message}`, 'error');
-                addLog('Assure-toi d\'accepter la connexion dans ton wallet', 'info');
+                console.error('❌ Erreur connexion:', error);
+                addLog(`Erreur de connexion: ${error.message}`, 'error');
+                addLog('Accepte la demande de connexion dans ton wallet', 'info');
             }
         }
 
-        // Signer et exécuter une transaction
         async function signAndExecute(tx) {
-            try {
-                const feature = currentWallet.features['sui:signAndExecuteTransactionBlock'] || 
-                               currentWallet.features['sui:signAndExecuteTransaction'];
-                
-                if (!feature) {
-                    throw new Error('Wallet ne supporte pas la signature de transactions');
-                }
-
-                const result = await feature.signAndExecuteTransactionBlock({
-                    transactionBlock: tx,
-                    account: currentWallet.accounts[0],
-                    chain: `sui:${NETWORK}`,
-                    options: {
-                        showEffects: true,
-                        showEvents: true
-                    }
-                });
-
-                return result;
-            } catch (error) {
-                console.error('Erreur signature:', error);
-                throw error;
+            const feature = currentWallet.features['sui:signAndExecuteTransactionBlock'] || 
+                           currentWallet.features['sui:signAndExecuteTransaction'];
+            
+            if (!feature) {
+                throw new Error('Wallet ne supporte pas la signature de transactions');
             }
+
+            return await feature.signAndExecuteTransactionBlock({
+                transactionBlock: tx,
+                account: currentWallet.accounts[0],
+                chain: `sui:${NETWORK}`,
+                options: { showEffects: true, showEvents: true }
+            });
         }
 
-        // Charger les données du joueur
         async function loadPlayerData() {
             try {
-                addLog('Recherche de ton personnage...', 'info');
+                addLog('Recherche de ton héros...', 'info');
 
                 const objects = await suiClient.getOwnedObjects({
                     owner: currentAccount,
@@ -594,26 +1093,26 @@
                 if (playerObj) {
                     playerObjectId = playerObj.data.objectId;
                     updatePlayerUI(playerObj.data.content.fields);
-                    addLog('Personnage trouvé et chargé !', 'success');
+                    addLog('Héros chargé avec succès! ⚔️', 'success');
                     document.getElementById('createPlayer').disabled = true;
                     document.getElementById('healPlayer').disabled = false;
                     enableZombieButtons();
+                    await loadZombies();
                 } else {
-                    addLog('Aucun personnage trouvé. Crée-en un !', 'info');
+                    addLog('Aucun héros trouvé. Crée ton champion!', 'info');
                 }
             } catch (error) {
                 console.error('Erreur chargement:', error);
-                addLog('Erreur lors du chargement', 'error');
+                addLog('Erreur lors du chargement des données', 'error');
             }
         }
 
-        // Créer un personnage
         document.getElementById('createPlayer').addEventListener('click', async () => {
-            const name = prompt('Nom de ton personnage:', 'Hero');
+            const name = prompt('Nom de ton héros légendaire:', 'Hero');
             if (!name) return;
 
             try {
-                addLog('Création du personnage en cours...', 'info');
+                addLog(`Création de ${name}... ✨`, 'info');
 
                 const tx = new Transaction();
                 tx.moveCall({
@@ -626,10 +1125,10 @@
                 const result = await signAndExecute(tx);
 
                 if (result.effects.status.status === 'success') {
-                    addLog(`Personnage "${name}" créé avec succès !`, 'success');
+                    addLog(`${name} a été créé avec succès! 🎉`, 'success');
                     setTimeout(() => loadPlayerData(), 2000);
                 } else {
-                    addLog('Erreur lors de la création', 'error');
+                    addLog('Échec de la création', 'error');
                 }
             } catch (error) {
                 console.error('Erreur:', error);
@@ -637,7 +1136,6 @@
             }
         });
 
-        // Mettre à jour l'UI du joueur
         function updatePlayerUI(fields) {
             document.getElementById('playerName').textContent = fields.name || '-';
             document.getElementById('playerLevel').textContent = fields.level || '-';
@@ -654,21 +1152,20 @@
             document.getElementById('playerHealthText').textContent = `${health}/${maxHealth}`;
         }
 
-        // Activer les boutons de spawn
         function enableZombieButtons() {
             document.getElementById('spawnNormal').disabled = false;
             document.getElementById('spawnStrong').disabled = false;
             document.getElementById('spawnBoss').disabled = false;
         }
 
-        // Spawn zombies
         document.getElementById('spawnNormal').addEventListener('click', () => spawnZombie('normal'));
         document.getElementById('spawnStrong').addEventListener('click', () => spawnZombie('strong'));
         document.getElementById('spawnBoss').addEventListener('click', () => spawnZombie('boss'));
 
         async function spawnZombie(type) {
             try {
-                addLog(`Spawn d'un zombie ${type}...`, 'info');
+                const names = { normal: 'Normal', strong: 'Fort', boss: 'Boss' };
+                addLog(`Invocation d'un zombie ${names[type]}... 🌙`, 'info');
 
                 const functionMap = {
                     'normal': 'spawn_normal',
@@ -684,7 +1181,7 @@
                 const result = await signAndExecute(tx);
 
                 if (result.effects.status.status === 'success') {
-                    addLog(`Zombie ${type} spawné !`, 'success');
+                    addLog(`Zombie ${names[type]} spawné! L'obscurité grandit... 🧟`, 'success');
                     setTimeout(() => loadZombies(), 2000);
                 }
             } catch (error) {
@@ -693,7 +1190,6 @@
             }
         }
 
-        // Charger les zombies
         async function loadZombies() {
             try {
                 const objects = await suiClient.getOwnedObjects({
@@ -711,37 +1207,41 @@
             }
         }
 
-        // Mettre à jour la liste des zombies
         function updateZombieList() {
             const list = document.getElementById('zombieList');
 
             if (zombieObjects.length === 0) {
-                list.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">Aucun zombie...</p>';
+                list.innerHTML = `
+                    <p style="text-align: center; color: #888; padding: 30px;">
+                        🌙 La nuit est calme...<br><br>
+                        Spawne des zombies pour<br>commencer le combat !
+                    </p>
+                `;
                 return;
             }
 
             list.innerHTML = zombieObjects.map(zombie => {
                 const fields = zombie.data.content.fields;
-                const typeNames = ['', 'Normal', 'Fort', 'Boss'];
-                const typeName = typeNames[fields.zombie_type] || 'Inconnu';
+                const typeNames = ['', '🧟 Normal', '🧟‍♂️ Fort', '👹 Boss'];
+                const typeName = typeNames[fields.zombie_type] || '🧟 Inconnu';
 
                 return `
                     <div class="zombie-item" data-zombie-id="${zombie.data.objectId}">
-                        <div class="zombie-type">🧟 Zombie ${typeName}</div>
+                        <div class="zombie-type">${typeName}</div>
                         <div class="stat-item">
-                            <span>HP:</span>
-                            <span>${fields.health}/${fields.max_health}</span>
+                            <span>❤️ HP:</span>
+                            <span style="color: #ff6b6b;">${fields.health}/${fields.max_health}</span>
                         </div>
                         <div class="stat-item">
                             <span>⚔️ ${fields.attack}</span>
                             <span>🛡️ ${fields.defense}</span>
                         </div>
                         <div class="stat-item">
-                            <span>🎁 ${fields.xp_reward} XP</span>
-                            <span>💰 ${fields.coin_reward}</span>
+                            <span>🎁 Récompenses:</span>
+                            <span>${fields.xp_reward} XP | ${fields.coin_reward} 💰</span>
                         </div>
-                        <div style="text-align: center; margin-top: 8px; color: #ff6b6b; font-weight: bold;">
-                            ⚔️ ATTAQUER
+                        <div style="text-align: center; margin-top: 12px; padding: 10px; background: rgba(255,107,107,0.2); border-radius: 8px;">
+                            <span style="color: #ff4444; font-weight: bold; font-size: 1.1em;">⚔️ COMBATTRE</span>
                         </div>
                     </div>
                 `;
@@ -755,15 +1255,41 @@
             });
         }
 
-        // Attaquer un zombie
         async function attackZombie(zombieId) {
             if (!playerObjectId) {
-                addLog('Crée d\'abord un personnage !', 'error');
+                addLog('Crée d\'abord un héros!', 'error');
                 return;
             }
 
+            // Montrer le zombie dans l'arène
+            document.getElementById('emptyBattle').style.display = 'none';
+            document.getElementById('zombieFighter').style.display = 'block';
+
             try {
-                addLog('⚔️ Combat en cours...', 'info');
+                addLog('⚔️ Combat épique en cours...', 'info');
+
+                // Animation d'attaque du héros
+                const hero = document.getElementById('heroFighter');
+                hero.classList.remove('idle');
+                hero.classList.add('attacking');
+                
+                setTimeout(() => {
+                    showAttackEffect('50%', '40%', '💥');
+                    showDamageNumber(Math.floor(Math.random() * 30) + 20, '55%', '35%');
+                }, 350);
+
+                setTimeout(() => {
+                    hero.classList.remove('attacking');
+                    hero.classList.add('idle');
+                    
+                    // Animation du zombie touché
+                    const zombie = document.getElementById('zombieFighter');
+                    zombie.classList.add('hit');
+                    
+                    setTimeout(() => {
+                        zombie.classList.remove('hit');
+                    }, 600);
+                }, 700);
 
                 const tx = new Transaction();
                 tx.moveCall({
@@ -782,28 +1308,44 @@
 
                     if (combatEvent) {
                         const data = combatEvent.parsedJson;
-                        if (data.player_won) {
-                            addLog(`🎉 Victoire ! +${data.xp_gained} XP, +${data.coins_gained} 💰`, 'success');
-                        } else {
-                            addLog('💀 Défaite... Tu as été vaincu', 'error');
-                        }
+                        setTimeout(() => {
+                            if (data.player_won) {
+                                // Animation de victoire
+                                hero.classList.add('victory');
+                                document.getElementById('zombieFighter').classList.add('defeat');
+                                
+                                setTimeout(() => {
+                                    hero.classList.remove('victory');
+                                    document.getElementById('zombieFighter').style.display = 'none';
+                                    document.getElementById('emptyBattle').style.display = 'block';
+                                }, 1500);
+                                
+                                showHealEffect(`+${data.xp_gained} XP`, '20%', '30%');
+                                addLog(`🎉 VICTOIRE ÉCLATANTE! +${data.xp_gained} XP, +${data.coins_gained} 💰`, 'success');
+                            } else {
+                                hero.classList.add('hit');
+                                setTimeout(() => hero.classList.remove('hit'), 600);
+                                addLog('💀 Défaite... Le zombie était trop puissant', 'error');
+                            }
+                        }, 1200);
                     }
 
                     setTimeout(() => {
                         loadPlayerData();
                         loadZombies();
-                    }, 2000);
+                    }, 2500);
                 }
             } catch (error) {
                 console.error('Erreur combat:', error);
-                addLog(`Erreur: ${error.message}`, 'error');
+                addLog(`Erreur de combat: ${error.message}`, 'error');
+                document.getElementById('zombieFighter').style.display = 'none';
+                document.getElementById('emptyBattle').style.display = 'block';
             }
         }
 
-        // Se soigner
         document.getElementById('healPlayer').addEventListener('click', async () => {
             try {
-                addLog('Soin en cours...', 'info');
+                addLog('Soin en cours... 🩹', 'info');
 
                 const tx = new Transaction();
                 tx.moveCall({
@@ -817,7 +1359,8 @@
                 const result = await signAndExecute(tx);
 
                 if (result.effects.status.status === 'success') {
-                    addLog('🩹 +50 HP !', 'success');
+                    showHealEffect('+50 HP', '25%', '50%');
+                    addLog('🩹 Santé restaurée! +50 HP', 'success');
                     setTimeout(() => loadPlayerData(), 2000);
                 }
             } catch (error) {
@@ -826,9 +1369,8 @@
             }
         });
 
-        // Initialisation
-        console.log('🎮 Zombie Slayer chargé !');
-        console.log('En attente de détection des wallets...');
+        console.log('🎮 Zombie Slayer - Chargé et prêt!');
+        console.log('⏳ Détection des wallets en cours...');
     </script>
 </body>
 </html>
