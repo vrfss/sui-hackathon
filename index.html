@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zombie Slayer - Sui Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+            margin-bottom: 10px;
+        }
+
+        .wallet-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .wallet-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .wallet-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00ff88;
+            padding: 15px 30px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wallet-btn:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .wallet-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 15px 40px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h2 {
+            color: #00ff88;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #00ff88;
+            padding-bottom: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .health-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+            border: 2px solid #00ff88;
+        }
+
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc70 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .canvas-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #00ff88;
+            min-height: 400px;
+        }
+
+        .log-area {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .log-entry {
+            margin: 8px 0;
+            padding: 8px;
+            border-left: 3px solid #00ff88;
+            padding-left: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .log-error {
+            border-left-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .log-success {
+            border-left-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .log-info {
+            border-left-color: #4facfe;
+            color: #4facfe;
+        }
+
+        .zombie-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .zombie-item {
+            background: rgba(255, 100, 100, 0.15);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 2px solid #ff6b6b;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .zombie-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 100, 100, 0.25);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .zombie-type {
+            font-weight: bold;
+            color: #ff6b6b;
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .wallet-info {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 1em;
+            border: 1px solid #00ff88;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .instructions {
+            background: rgba(74, 172, 254, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #4facfe;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff88;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00cc70;
+        }
+
+        .loading {
+            color: #4facfe;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧟 ZOMBIE SLAYER 🗡️</h1>
+            <p style="font-size: 1.2em; margin-top: 10px;">Combat sur la blockchain Sui</p>
+        </div>
+
+        <div class="wallet-section">
+            <p class="loading" id="loadingText">🔍 Recherche des wallets...</p>
+            <div id="walletSelector" class="wallet-selector"></div>
+            <div class="wallet-info hidden" id="walletInfo"></div>
+        </div>
+
+        <div id="gameInterface" class="hidden">
+            <div class="game-area">
+                <!-- Panneau Joueur -->
+                <div class="panel">
+                    <h2>👤 Ton Personnage</h2>
+                    <div id="playerStats">
+                        <div class="stat-item">
+                            <span class="stat-label">Nom:</span>
+                            <span class="stat-value" id="playerName">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Level:</span>
+                            <span class="stat-value" id="playerLevel">-</span>
+                        </div>
+                        <div>
+                            <div class="stat-label" style="margin-bottom: 8px;">Santé:</div>
+                            <div class="health-bar">
+                                <div class="health-fill" id="playerHealth" style="width: 100%;">
+                                    <span id="playerHealthText">100/100</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">⚔️ Attaque:</span>
+                            <span class="stat-value" id="playerAttack">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">🛡️ Défense:</span>
+                            <span class="stat-value" id="playerDefense">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">⭐ XP:</span>
+                            <span class="stat-value" id="playerXP">-</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">💰 Pièces:</span>
+                            <span class="stat-value" id="playerCoins">-</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" id="createPlayer">✨ Créer Personnage</button>
+                    <button class="btn" id="healPlayer" disabled>🩹 Se Soigner (10 💰)</button>
+                </div>
+
+                <!-- Zone de Jeu -->
+                <div class="panel">
+                    <h2>🎮 Zone de Combat</h2>
+                    <div class="canvas-container">
+                        <div style="padding: 40px; text-align: center;">
+                            <p style="font-size: 4em; margin-bottom: 20px;">🧟‍♂️ vs 🗡️</p>
+                            <p style="font-size: 1.2em; color: #aaa;">Prêt pour le combat ?</p>
+                        </div>
+                    </div>
+                    <div class="instructions">
+                        <p>📋 <strong>Instructions:</strong></p>
+                        <p>1. Crée ton personnage | 2. Spawn un zombie | 3. Attaque-le !</p>
+                    </div>
+                    <div class="log-area" id="gameLog">
+                        <div class="log-entry log-success">✅ Bienvenue dans Zombie Slayer !</div>
+                        <div class="log-entry log-info">🔗 Connecte ton wallet pour commencer...</div>
+                    </div>
+                </div>
+
+                <!-- Panneau Zombies -->
+                <div class="panel">
+                    <h2>🧟 Zombies Disponibles</h2>
+                    <button class="btn btn-danger" id="spawnNormal" disabled>
+                        Spawn Normal<br>
+                        <small style="font-size: 0.8em;">50 HP | 25 XP</small>
+                    </button>
+                    <button class="btn btn-danger" id="spawnStrong" disabled>
+                        Spawn Fort<br>
+                        <small style="font-size: 0.8em;">100 HP | 50 XP</small>
+                    </button>
+                    <button class="btn btn-danger" id="spawnBoss" disabled>
+                        Spawn Boss<br>
+                        <small style="font-size: 0.8em;">200 HP | 150 XP</small>
+                    </button>
+                    
+                    <div class="zombie-list" id="zombieList">
+                        <p style="text-align: center; color: #888; padding: 20px;">
+                            Aucun zombie pour l'instant...<br>
+                            Spawne-en un pour commencer !
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { SuiClient, getFullnodeUrl } from 'https://esm.sh/@mysten/sui@1.15.0/client';
+        import { Transaction } from 'https://esm.sh/@mysten/sui@1.15.0/transactions';
+
+        // Configuration
+        const PACKAGE_ID = '0xd0ed8178bb15ab8bea93f74130639417fea3b8851f4adacf1262bde485a534d8';
+        const NETWORK = 'testnet';
+        
+        let suiClient = new SuiClient({ url: getFullnodeUrl(NETWORK) });
+        let currentWallet = null;
+        let currentAccount = null;
+        let playerObjectId = null;
+        let zombieObjects = [];
+
+        // Éléments DOM
+        const walletSelector = document.getElementById('walletSelector');
+        const walletInfo = document.getElementById('walletInfo');
+        const gameInterface = document.getElementById('gameInterface');
+        const gameLog = document.getElementById('gameLog');
+        const loadingText = document.getElementById('loadingText');
+
+        // Fonction pour ajouter des logs
+        function addLog(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${icon} ${message}`;
+            gameLog.appendChild(logEntry);
+            gameLog.scrollTop = gameLog.scrollHeight;
+        }
+
+        // Storage pour les wallets détectés
+        const GlobalWallet = {
+            walletList: [],
+            register: (wallet) => {
+                console.log('Wallet enregistré:', wallet.name);
+                GlobalWallet.walletList.push(wallet);
+            }
+        };
+
+        // Event pour détecter les wallets (Wallet Standard API)
+        const event = new CustomEvent('wallet-standard:app-ready', {
+            detail: GlobalWallet
+        });
+        window.dispatchEvent(event);
+
+        // Attendre et afficher les wallets
+        setTimeout(() => {
+            console.log('Wallets détectés:', GlobalWallet.walletList.length);
+            displayWalletButtons();
+        }, 1500);
+
+        // Afficher les boutons de wallet
+        function displayWalletButtons() {
+            const wallets = GlobalWallet.walletList;
+            
+            loadingText.style.display = 'none';
+
+            if (wallets.length === 0) {
+                walletSelector.innerHTML = `
+                    <div style="padding: 20px; background: rgba(255, 107, 107, 0.2); border: 2px solid #ff6b6b; border-radius: 15px;">
+                        <p style="color: #ff6b6b; margin-bottom: 10px;">❌ Aucun wallet Sui détecté !</p>
+                        <p style="font-size: 0.9em;">Installe un wallet compatible :</p>
+                        <p style="font-size: 0.9em; margin-top: 5px;">
+                            <a href="https://phantom.app/" target="_blank" style="color: #00ff88;">Phantom</a> | 
+                            <a href="https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil" target="_blank" style="color: #00ff88;">Sui Wallet</a> |
+                            <a href="https://suiet.app/" target="_blank" style="color: #00ff88;">Suiet</a>
+                        </p>
+                        <p style="font-size: 0.8em; margin-top: 10px; color: #aaa;">Rafraîchis la page après installation</p>
+                    </div>
+                `;
+                return;
+            }
+
+            addLog(`${wallets.length} wallet(s) détecté(s) !`, 'success');
+
+            wallets.forEach(wallet => {
+                const btn = document.createElement('button');
+                btn.className = 'wallet-btn';
+                btn.innerHTML = `
+                    ${wallet.icon ? `<img src="${wallet.icon}" class="wallet-icon" alt="${wallet.name}">` : '🔗'}
+                    <span>${wallet.name}</span>
+                `;
+                btn.onclick = () => connectWallet(wallet);
+                walletSelector.appendChild(btn);
+            });
+        }
+
+        // Connexion au wallet
+        async function connectWallet(wallet) {
+            try {
+                addLog(`Connexion à ${wallet.name}...`, 'info');
+
+                // Connecter via Wallet Standard
+                const connectFeature = wallet.features['standard:connect'];
+                if (!connectFeature) {
+                    addLog('❌ Ce wallet ne supporte pas la connexion standard', 'error');
+                    return;
+                }
+
+                await connectFeature.connect();
+
+                const accounts = wallet.accounts;
+
+                if (!accounts || accounts.length === 0) {
+                    addLog('❌ Aucun compte trouvé !', 'error');
+                    return;
+                }
+
+                currentWallet = wallet;
+                currentAccount = accounts[0].address;
+
+                walletInfo.innerHTML = `
+                    <strong>✅ ${wallet.name} connecté:</strong><br>
+                    ${currentAccount.slice(0, 8)}...${currentAccount.slice(-6)}
+                `;
+                walletInfo.classList.remove('hidden');
+                gameInterface.classList.remove('hidden');
+                walletSelector.innerHTML = `<button class="btn" disabled>✓ ${wallet.name} Connecté</button>`;
+
+                addLog('Wallet connecté avec succès !', 'success');
+
+                await loadPlayerData();
+
+            } catch (error) {
+                console.error('Erreur connexion:', error);
+                addLog(`Erreur: ${error.message}`, 'error');
+                addLog('Assure-toi d\'accepter la connexion dans ton wallet', 'info');
+            }
+        }
+
+        // Signer et exécuter une transaction
+        async function signAndExecute(tx) {
+            try {
+                const feature = currentWallet.features['sui:signAndExecuteTransactionBlock'] || 
+                               currentWallet.features['sui:signAndExecuteTransaction'];
+                
+                if (!feature) {
+                    throw new Error('Wallet ne supporte pas la signature de transactions');
+                }
+
+                const result = await feature.signAndExecuteTransactionBlock({
+                    transactionBlock: tx,
+                    account: currentWallet.accounts[0],
+                    chain: `sui:${NETWORK}`,
+                    options: {
+                        showEffects: true,
+                        showEvents: true
+                    }
+                });
+
+                return result;
+            } catch (error) {
+                console.error('Erreur signature:', error);
+                throw error;
+            }
+        }
+
+        // Charger les données du joueur
+        async function loadPlayerData() {
+            try {
+                addLog('Recherche de ton personnage...', 'info');
+
+                const objects = await suiClient.getOwnedObjects({
+                    owner: currentAccount,
+                    options: { showContent: true, showType: true }
+                });
+
+                const playerObj = objects.data.find(obj =>
+                    obj.data?.type?.includes('::player::Player')
+                );
+
+                if (playerObj) {
+                    playerObjectId = playerObj.data.objectId;
+                    updatePlayerUI(playerObj.data.content.fields);
+                    addLog('Personnage trouvé et chargé !', 'success');
+                    document.getElementById('createPlayer').disabled = true;
+                    document.getElementById('healPlayer').disabled = false;
+                    enableZombieButtons();
+                } else {
+                    addLog('Aucun personnage trouvé. Crée-en un !', 'info');
+                }
+            } catch (error) {
+                console.error('Erreur chargement:', error);
+                addLog('Erreur lors du chargement', 'error');
+            }
+        }
+
+        // Créer un personnage
+        document.getElementById('createPlayer').addEventListener('click', async () => {
+            const name = prompt('Nom de ton personnage:', 'Hero');
+            if (!name) return;
+
+            try {
+                addLog('Création du personnage en cours...', 'info');
+
+                const tx = new Transaction();
+                tx.moveCall({
+                    target: `${PACKAGE_ID}::player::create_player`,
+                    arguments: [
+                        tx.pure.vector('u8', Array.from(new TextEncoder().encode(name)))
+                    ]
+                });
+
+                const result = await signAndExecute(tx);
+
+                if (result.effects.status.status === 'success') {
+                    addLog(`Personnage "${name}" créé avec succès !`, 'success');
+                    setTimeout(() => loadPlayerData(), 2000);
+                } else {
+                    addLog('Erreur lors de la création', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                addLog(`Erreur: ${error.message}`, 'error');
+            }
+        });
+
+        // Mettre à jour l'UI du joueur
+        function updatePlayerUI(fields) {
+            document.getElementById('playerName').textContent = fields.name || '-';
+            document.getElementById('playerLevel').textContent = fields.level || '-';
+            document.getElementById('playerAttack').textContent = fields.attack || '-';
+            document.getElementById('playerDefense').textContent = fields.defense || '-';
+            document.getElementById('playerXP').textContent = fields.experience || '-';
+            document.getElementById('playerCoins').textContent = fields.coins || '-';
+
+            const health = parseInt(fields.health) || 0;
+            const maxHealth = parseInt(fields.max_health) || 100;
+            const healthPercent = (health / maxHealth) * 100;
+
+            document.getElementById('playerHealth').style.width = healthPercent + '%';
+            document.getElementById('playerHealthText').textContent = `${health}/${maxHealth}`;
+        }
+
+        // Activer les boutons de spawn
+        function enableZombieButtons() {
+            document.getElementById('spawnNormal').disabled = false;
+            document.getElementById('spawnStrong').disabled = false;
+            document.getElementById('spawnBoss').disabled = false;
+        }
+
+        // Spawn zombies
+        document.getElementById('spawnNormal').addEventListener('click', () => spawnZombie('normal'));
+        document.getElementById('spawnStrong').addEventListener('click', () => spawnZombie('strong'));
+        document.getElementById('spawnBoss').addEventListener('click', () => spawnZombie('boss'));
+
+        async function spawnZombie(type) {
+            try {
+                addLog(`Spawn d'un zombie ${type}...`, 'info');
+
+                const functionMap = {
+                    'normal': 'spawn_normal',
+                    'strong': 'spawn_strong',
+                    'boss': 'spawn_boss'
+                };
+
+                const tx = new Transaction();
+                tx.moveCall({
+                    target: `${PACKAGE_ID}::zombie::${functionMap[type]}`
+                });
+
+                const result = await signAndExecute(tx);
+
+                if (result.effects.status.status === 'success') {
+                    addLog(`Zombie ${type} spawné !`, 'success');
+                    setTimeout(() => loadZombies(), 2000);
+                }
+            } catch (error) {
+                console.error('Erreur spawn:', error);
+                addLog(`Erreur: ${error.message}`, 'error');
+            }
+        }
+
+        // Charger les zombies
+        async function loadZombies() {
+            try {
+                const objects = await suiClient.getOwnedObjects({
+                    owner: currentAccount,
+                    options: { showContent: true, showType: true }
+                });
+
+                zombieObjects = objects.data.filter(obj =>
+                    obj.data?.type?.includes('::zombie::Zombie')
+                );
+
+                updateZombieList();
+            } catch (error) {
+                console.error('Erreur chargement zombies:', error);
+            }
+        }
+
+        // Mettre à jour la liste des zombies
+        function updateZombieList() {
+            const list = document.getElementById('zombieList');
+
+            if (zombieObjects.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">Aucun zombie...</p>';
+                return;
+            }
+
+            list.innerHTML = zombieObjects.map(zombie => {
+                const fields = zombie.data.content.fields;
+                const typeNames = ['', 'Normal', 'Fort', 'Boss'];
+                const typeName = typeNames[fields.zombie_type] || 'Inconnu';
+
+                return `
+                    <div class="zombie-item" data-zombie-id="${zombie.data.objectId}">
+                        <div class="zombie-type">🧟 Zombie ${typeName}</div>
+                        <div class="stat-item">
+                            <span>HP:</span>
+                            <span>${fields.health}/${fields.max_health}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>⚔️ ${fields.attack}</span>
+                            <span>🛡️ ${fields.defense}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>🎁 ${fields.xp_reward} XP</span>
+                            <span>💰 ${fields.coin_reward}</span>
+                        </div>
+                        <div style="text-align: center; margin-top: 8px; color: #ff6b6b; font-weight: bold;">
+                            ⚔️ ATTAQUER
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.zombie-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const zombieId = item.getAttribute('data-zombie-id');
+                    attackZombie(zombieId);
+                });
+            });
+        }
+
+        // Attaquer un zombie
+        async function attackZombie(zombieId) {
+            if (!playerObjectId) {
+                addLog('Crée d\'abord un personnage !', 'error');
+                return;
+            }
+
+            try {
+                addLog('⚔️ Combat en cours...', 'info');
+
+                const tx = new Transaction();
+                tx.moveCall({
+                    target: `${PACKAGE_ID}::combat::fight`,
+                    arguments: [
+                        tx.object(playerObjectId),
+                        tx.object(zombieId)
+                    ]
+                });
+
+                const result = await signAndExecute(tx);
+
+                if (result.effects.status.status === 'success') {
+                    const events = result.events || [];
+                    const combatEvent = events.find(e => e.type && e.type.includes('CombatFinished'));
+
+                    if (combatEvent) {
+                        const data = combatEvent.parsedJson;
+                        if (data.player_won) {
+                            addLog(`🎉 Victoire ! +${data.xp_gained} XP, +${data.coins_gained} 💰`, 'success');
+                        } else {
+                            addLog('💀 Défaite... Tu as été vaincu', 'error');
+                        }
+                    }
+
+                    setTimeout(() => {
+                        loadPlayerData();
+                        loadZombies();
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Erreur combat:', error);
+                addLog(`Erreur: ${error.message}`, 'error');
+            }
+        }
+
+        // Se soigner
+        document.getElementById('healPlayer').addEventListener('click', async () => {
+            try {
+                addLog('Soin en cours...', 'info');
+
+                const tx = new Transaction();
+                tx.moveCall({
+                    target: `${PACKAGE_ID}::player::heal`,
+                    arguments: [
+                        tx.object(playerObjectId),
+                        tx.pure.u64(50)
+                    ]
+                });
+
+                const result = await signAndExecute(tx);
+
+                if (result.effects.status.status === 'success') {
+                    addLog('🩹 +50 HP !', 'success');
+                    setTimeout(() => loadPlayerData(), 2000);
+                }
+            } catch (error) {
+                console.error('Erreur soin:', error);
+                addLog(`Erreur: ${error.message}`, 'error');
+            }
+        });
+
+        // Initialisation
+        console.log('🎮 Zombie Slayer chargé !');
+        console.log('En attente de détection des wallets...');
+    </script>
+</body>
+</html>
