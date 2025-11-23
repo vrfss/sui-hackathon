@@ -1,4 +1,12 @@
-!!! le carré.html est le bon fichier html à lancer, index.html est une ancienne version !!!
+//french
+
+Prérequis pour jouer :
+installer tous les fichiers
+lancer carré.html (index.html est une ancienne version fonctionnelle aussi)
+avoir un porte feuille sui, phantom ou suet qui n'est pas vide
+vérifier dans les paramètres du porte feuille (en faisant gérer l'extension) que l'option "Autoriser l'accès aux URL de fichier" est bien activé
+et voilà !
+
 
 # 🧟 ZOMBIE SLAYER - Jeu de Combat sur Blockchain Sui
 
