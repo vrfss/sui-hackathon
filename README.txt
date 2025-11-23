@@ -1,3 +1,5 @@
+!!! le carré.html est le bon fichier html à lancer, index.html est une ancienne version !!!
+
 # 🧟 ZOMBIE SLAYER - Jeu de Combat sur Blockchain Sui
 
 ## 📖 Description
