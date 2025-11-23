@@ -1243,6 +1243,16 @@
         function updateZombieList() {
             const list = document.getElementById('zombieList');
 
+            // Afficher le zombie dans l'arène si au moins 1 zombie existe
+if (zombieObjects.length > 0) {
+    document.getElementById('emptyBattle').style.display = 'none';
+    document.getElementById('zombieFighter').style.display = 'block';
+} else {
+    document.getElementById('emptyBattle').style.display = 'block';
+    document.getElementById('zombieFighter').style.display = 'none';
+}
+
+
             if (zombieObjects.length === 0) {
                 list.innerHTML = `
                     <p style="text-align: center; color: #888; padding: 30px;">
@@ -1299,7 +1309,16 @@
 
             try {
                 addLog('⚔️ Combat épique en cours...', 'info');
-
+                const tx = new Transaction();
+                tx.moveCall({
+                    target: `${PACKAGE_ID}::combat::fight`,
+                    arguments: [
+                        tx.object(playerObjectId),
+                        tx.object(zombieId)
+                    ]
+                });
+                const result = await signAndExecute(tx);
+                addLog('💥 Attaque lancée!', 'success');
                 const hero = document.getElementById('heroFighter');
                 hero.classList.remove('idle');
                 hero.classList.add('attacking');
@@ -1321,16 +1340,6 @@
                     }, 600);
                 }, 700);
 
-                const tx = new Transaction();
-                tx.moveCall({
-                    target: `${PACKAGE_ID}::combat::fight`,
-                    arguments: [
-                        tx.object(playerObjectId),
-                        tx.object(zombieId)
-                    ]
-                });
-
-                const result = await signAndExecute(tx);
 
                 if (result.effects.status.status === 'success') {
                     const events = result.events || [];
@@ -1345,8 +1354,7 @@
                                 
                                 setTimeout(() => {
                                     hero.classList.remove('victory');
-                                    document.getElementById('zombieFighter').style.display = 'none';
-                                    document.getElementById('emptyBattle').style.display = 'block';
+                                    
                                 }, 1500);
                                 
                                 showHealEffect(`+${data.xp_gained} XP`, '20%', '30%');
